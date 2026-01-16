@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![YourHour Desktop](assets/icon.png)
-
 **Track your Windows app usage, visualize your digital habits, and boost productivity**
 
 [![Electron](https://img.shields.io/badge/Electron-27.0.0-blue.svg)](https://www.electronjs.org/)
