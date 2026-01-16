@@ -118,7 +118,7 @@ The app runs in the system tray when closed:
 
 ### Keyboard Shortcuts
 
-- `F12` - Open DevTools (for debugging)
+- `Ctrl+Shift+I` - Open DevTools (for debugging)
 - `Ctrl+W` - Close window (minimizes to tray)
 
 ---

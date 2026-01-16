@@ -23,11 +23,6 @@ function createWindow() {
 
     mainWindow.loadFile('src/renderer/index.html');
 
-    // Always open DevTools for debugging
-    mainWindow.webContents.on('did-finish-load', () => {
-        mainWindow.webContents.openDevTools();
-    });
-
     mainWindow.on('close', (event) => {
         if (!app.isQuitting) {
             event.preventDefault();
