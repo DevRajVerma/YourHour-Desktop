@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourHour Desktop</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <h1>⏱️ YourHour</h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item active" data-view="dashboard">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item" data-view="timeline">
+                    <span class="icon">📅</span>
+                    <span>Timeline</span>
+                </li>
+                <li class="nav-item" data-view="reports">
+                    <span class="icon">📈</span>
+                    <span>Reports</span>
+                </li>
+                <li class="nav-item" data-view="apps">
+                    <span class="icon">📱</span>
+                    <span>Apps</span>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <div id="dashboard-view" class="view active">
+                <header class="view-header">
+                    <h2>Dashboard</h2>
+                    <p class="subtitle">Today's Overview</p>
+                </header>
+
+                <!-- App Switches Card -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <h3 style="font-size: 48px; font-weight: 700; color: var(--primary-color); margin-bottom: 8px;"
+                                id="total-switches">0 times</h3>
+                            <p style="color: var(--text-secondary); font-size: 14px;">App Switches Today</p>
+                        </div>
+                        <div style="font-size: 64px; opacity: 0.1;">🔄</div>
+                    </div>
+                </div>
+
+                <!-- Peak Usage Card -->
+                <div class="card" id="peak-usage-card"
+                    style="margin-bottom: 24px; background: linear-gradient(135deg, #ff6b6b, #ee5a6f); color: white; display: none;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="font-size: 48px;">📱</div>
+                        <div>
+                            <h3 style="font-size: 20px; font-weight: 600; margin-bottom: 4px;">Peak Usage</h3>
+                            <p id="peak-time-range" style="font-size: 18px; opacity: 0.9;">12:00 PM - 02:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">⏰</div>
+                        <div class="stat-content">
+                            <h3 id="total-time">0h 0m</h3>
+                            <p>Total Screen Time</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">📱</div>
+                        <div class="stat-content">
+                            <h3 id="app-count">0</h3>
+                            <p>Apps Used</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon">⭐</div>
+                        <div class="stat-content">
+                            <h3 id="most-used">-</h3>
+                            <p>Most Used App</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="current-session">
+                    <h3>Current Activity</h3>
+                    <div class="session-card">
+                        <div class="session-info">
+                            <div class="app-name" id="current-app">No active app</div>
+                            <div class="session-duration" id="current-duration">0:00</div>
+                        </div>
+                        <div class="session-status">
+                            <span class="status-indicator active"></span>
+                            <span>Tracking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="top-apps">
+                    <h3>Top Apps Today</h3>
+                    <div id="top-apps-list" class="apps-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline View -->
+            <div id="timeline-view" class="view">
+                <header class="view-header">
+                    <h2>Usage Timeline</h2>
+                    <input type="date" id="timeline-date" class="date-picker">
+                </header>
+
+                <!-- Hourly Grouped Timeline -->
+                <div id="hourly-timeline" class="timeline-container">
+                    <!-- Populated by JavaScript -->
+                </div>
+
+                <div class="timeline-legend">
+                    <h4>Detailed Sessions</h4>
+                    <div id="timeline-details">
+                        Select a date to view timeline
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="reports-view" class="view">
+                <header class="view-header">
+                    <h2>Reports</h2>
+                    <div class="report-controls">
+                        <select id="report-type" class="report-select">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                </header>
+
+                <div class="report-content">
+                    <div class="chart-container">
+                        <canvas id="usage-chart"></canvas>
+                    </div>
+
+                    <div class="report-table">
+                        <table id="report-data">
+                            <thead>
+                                <tr>
+                                    <th>Application</th>
+                                    <th>Time Spent</th>
+                                    <th>Sessions</th>
+                                    <th>Percentage</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apps View -->
+            <div id="apps-view" class="view">
+                <header class="view-header">
+                    <h2>Applications</h2>
+                    <input type="text" id="app-search" class="search-input" placeholder="Search apps...">
+                </header>
+
+                <div class="apps-table-container">
+                    <table id="apps-table">
+                        <thead>
+                            <tr>
+                                <th>Application</th>
+                                <th>Usage</th>
+                                <th>Sessions</th>
+                                <th>Last Used</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="renderer.js"></script>
+</body>
+
+</html>

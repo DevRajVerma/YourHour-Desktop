@@ -1,0 +1,25 @@
+{
+  "name": "yourhour-desktop",
+  "version": "1.0.0",
+  "description": "Windows app usage tracker with timeline and reports",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "keywords": [
+    "time-tracker",
+    "productivity",
+    "windows"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^9.0.0",
+    "chart.js": "^4.0.0"
+  },
+  "devDependencies": {
+    "electron": "^27.0.0",
+    "electron-rebuild": "^3.2.9"
+  }
+}
