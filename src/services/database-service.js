@@ -24,6 +24,11 @@ class DatabaseService {
       )
     `);
 
+    // Create indexes for faster queries (HUGE performance boost!)
+    this.db.exec(`CREATE INDEX IF NOT EXISTS idx_sessions_date ON sessions(date)`);
+    this.db.exec(`CREATE INDEX IF NOT EXISTS idx_sessions_app_name ON sessions(app_name)`);
+    this.db.exec(`CREATE INDEX IF NOT EXISTS idx_sessions_date_duration ON sessions(date, duration)`);
+
     // Create daily summaries table
     this.db.exec(`
       CREATE TABLE IF NOT EXISTS daily_summaries (
@@ -46,7 +51,7 @@ class DatabaseService {
       )
     `);
 
-    console.log('Database initialized');
+    console.log('Database initialized with indexes');
   }
 
   // Insert a new session
@@ -217,6 +222,20 @@ class DatabaseService {
   getAppCategory(appName) {
     const result = this.db.prepare('SELECT category FROM app_metadata WHERE app_name = ?').get(appName);
     return result ? result.category : 'neutral';
+  }
+
+  // Get daily reports for last N days in ONE query (instead of 30 queries!)
+  getDailyReportsForRange(days = 30) {
+    return this.db.prepare(`
+      SELECT 
+        date,
+        SUM(duration) as total_time,
+        COUNT(*) as unlock_count
+      FROM sessions
+      WHERE date >= date('now', '-' || ? || ' days') AND duration IS NOT NULL
+      GROUP BY date
+      ORDER BY date DESC
+    `).all(days);
   }
 
   close() {

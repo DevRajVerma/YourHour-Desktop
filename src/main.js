@@ -103,13 +103,13 @@ app.whenReady().then(() => {
         }
     });
 
-    // Send status updates every second
+    // Send status updates every 2 seconds, only when window is visible
     setInterval(() => {
-        if (mainWindow && !mainWindow.isDestroyed()) {
+        if (mainWindow && !mainWindow.isDestroyed() && mainWindow.isVisible()) {
             const status = tracker.getStatus();
             mainWindow.webContents.send('tracker-status', status);
         }
-    }, 1000);
+    }, 2000);
 
     console.log('=== YourHour Desktop Ready ===');
 });
@@ -142,6 +142,11 @@ ipcMain.handle('set-app-category', async (event, appName, category) => {
 
 ipcMain.handle('get-tracker-status', async () => {
     return tracker.getStatus();
+});
+
+// Batch query for daily reports (30 queries → 1 query!)
+ipcMain.handle('get-daily-reports-range', async (event, days) => {
+    return db.getDailyReportsForRange(days || 30);
 });
 
 app.on('window-all-closed', () => {

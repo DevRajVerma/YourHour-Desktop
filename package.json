@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "dev": "electron . --dev"
+    "dev": "electron . --dev",
+    "package": "electron-packager . YourHourDesktop --platform=win32 --arch=x64 --out=dist --overwrite"
   },
   "keywords": [
     "time-tracker",
@@ -20,6 +21,28 @@
   },
   "devDependencies": {
     "electron": "^27.0.0",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2",
     "electron-rebuild": "^3.2.9"
+  },
+  "build": {
+    "appId": "com.yourhour.desktop",
+    "productName": "YourHour Desktop",
+    "win": {
+      "target": "nsis"
+    },
+    "files": [
+      "src/**/*",
+      "scripts/**/*",
+      "assets/**/*",
+      "node_modules/**/*"
+    ],
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "runAfterFinish": true
+    }
   }
 }
